@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyTrade - Soluciones para Importación y Exportación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary), #1a2530);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(44, 62, 80, 0.8), rgba(44, 62, 80, 0.8)), url('https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 50px;
+        }
+        
+        .feature-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            height: 100%;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card .card-header {
+            background-color: var(--secondary);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .calculator-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        
+        .tab-content {
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background-color: #f8f9fa;
+            border-bottom: 3px solid var(--secondary);
+            font-weight: bold;
+        }
+        
+        .result-box {
+            background-color: #e8f4fd;
+            border-left: 4px solid var(--secondary);
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .pallet-visualization {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            min-height: 200px;
+            position: relative;
+        }
+        
+        .box-item {
+            position: absolute;
+            background-color: var(--secondary);
+            border: 1px solid #1d6fa5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 10px;
+            box-sizing: border-box;
+        }
+        
+        .cost-breakdown li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary), #1a2530);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary);
+        }
+        
+        .document-list li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .document-list li:before {
+            content: '\f0a4';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-shipping-fast me-2"></i>
+                <strong>EasyTrade</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#documentos">Documentos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#cubicacion">Cubicación</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#costos">Costos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacto">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-4">Soluciones para Importación y Exportación en Colombia</h1>
+            <p class="lead mb-5">Simplificamos tus operaciones de comercio exterior con herramientas especializadas</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="#documentos" class="btn btn-light btn-lg px-4 py-2">Comenzar</a>
+                <a href="#contacto" class="btn btn-outline-light btn-lg px-4 py-2">Contacto</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="container mb-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-card card h-100">
+                    <div class="card-header">
+                        <i class="fas fa-file-alt me-2"></i>Documentos Requeridos
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Accede a la lista completa de documentos necesarios para tus operaciones de importación y exportación en Colombia.</p>
+                        <a href="#documentos" class="btn btn-sm btn-primary">Ver documentos</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card card h-100">
+                    <div class="card-header">
+                        <i class="fas fa-cube me-2"></i>Cubicación y Paletización
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Optimiza el espacio en tus contenedores con nuestra herramienta de cubicación y paletización avanzada.</p>
+                        <a href="#cubicacion" class="btn btn-sm btn-primary">Calcular ahora</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card card h-100">
+                    <div class="card-header">
+                        <i class="fas fa-calculator me-2"></i>Liquidación de Costos
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">Calcula todos los costos asociados a tus operaciones de importación y exportación de forma precisa.</p>
+                        <a href="#costos" class="btn btn-sm btn-primary">Calcular costos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentos Requeridos -->
+    <section id="documentos" class="container mb-5">
+        <div class="calculator-section">
+            <h2 class="section-title">Documentos Requeridos</h2>
+            <p>Selecciona el tipo de operación para ver los documentos necesarios:</p>
+            
+            <ul class="nav nav-tabs" id="documentTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="expo-tab" data-bs-toggle="tab" data-bs-target="#expo" type="button">Exportación</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="impo-tab" data-bs-toggle="tab" data-bs-target="#impo" type="button">Importación</button>
+                </li>
+            </ul>
+            
+            <div class="tab-content" id="documentTabsContent">
+                <div class="tab-pane fade show active" id="expo" role="tabpanel">
+                    <h3 class="mt-4 mb-3">Documentos para Exportación desde Colombia</h3>
+                    <ul class="document-list">
+                        <li><strong>Factura Comercial</strong> - Documento que describe la mercancía, valor, términos de venta, etc.</li>
+                        <li><strong>Lista de Empaque</strong> - Detalle de los bultos, pesos y dimensiones.</li>
+                        <li><strong>Certificado de Origen</strong> - Para acogerse a tratados de libre comercio.</li>
+                        <li><strong>Documento de Transporte</strong> - Conocimiento de Embarque (Bill of Lading) o Guía Aérea (Air Waybill).</li>
+                        <li><strong>Certificados Especiales</strong> - Sanitarios, fitosanitarios o de calidad según el producto.</li>
+                        <li><strong>Declaración de Exportación (DEX)</strong> - Registro ante la DIAN.</li>
+                        <li><strong>Registro o Licencia de Exportación</strong> - Para productos restringidos.</li>
+                        <li><strong>Póliza de Seguro</strong> - Opcional pero recomendada.</li>
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="impo" role="tabpanel">
+                    <h3 class="mt-4 mb-3">Documentos para Importación a Colombia</h3>
+                    <ul class="document-list">
+                        <li><strong>Factura Comercial</strong> - Emitida por el exportador extranjero.</li>
+                        <li><strong>Lista de Empaque</strong> - Detalle de los bultos, pesos y dimensiones.</li>
+                        <li><strong>Certificado de Origen</strong> - Para aplicación de preferencias arancelarias.</li>
+                        <li><strong>Conocimiento de Embarque (B/L)</strong> - Documento de transporte marítimo.</li>
+                        <li><strong>Declaración de Importación (DIAN)</strong> - Registro ante la autoridad tributaria.</li>
+                        <li><strong>Certificados Sanitarios</strong> - Para alimentos, medicamentos o productos de uso médico.</li>
+                        <li><strong>Registro INVIMA</strong> - Para productos farmacéuticos, cosméticos y alimentos.</li>
+                        <li><strong>Autorizaciones Especiales</strong> - Para productos regulados (armas, químicos, etc.).</li>
+                        <li><strong>Póliza de Seguro</strong> - Cubre riesgos durante el transporte.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cubicación y Paletización -->
+    <section id="cubicacion" class="container mb-5">
+        <div class="calculator-section">
+            <h2 class="section-title">Cubicación y Paletización</h2>
+            <p>Calcula el espacio necesario y optimiza la disposición de tus mercancías en palets y contenedores.</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <form id="cubicacion-form">
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de operación</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipoOperacion" id="exportacion" value="exportacion" checked>
+                                <label class="form-check-label" for="exportacion">Exportación</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipoOperacion" id="importacion" value="importacion">
+                                <label class="form-check-label" for="importacion">Importación</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="dimensiones" class="form-label">Dimensiones de la caja (cm)</label>
+                            <div class="row g-2">
+                                <div class="col">
+                                    <input type="number" class="form-control" id="largo" placeholder="Largo" min="1" value="30">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" id="ancho" placeholder="Ancho" min="1" value="20">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" id="alto" placeholder="Alto" min="1" value="15">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="peso" class="form-label">Peso por caja (kg)</label>
+                            <input type="number" class="form-control" id="peso" min="0.1" step="0.1" value="5">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cantidad" class="form-label">Número de cajas</label>
+                            <input type="number" class="form-control" id="cantidad" min="1" value="100">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="tipoPalet" class="form-label">Tipo de palet</label>
+                            <select class="form-select" id="tipoPalet">
+                                <option value="europa">Europeo (120x80 cm)</option>
+                                <option value="americano">Americano (120x100 cm)</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                        </div>
+                        
+                        <div id="custom-palet" class="mb-3 d-none">
+                            <label class="form-label">Dimensiones personalizadas (cm)</label>
+                            <div class="row g-2">
+                                <div class="col">
+                                    <input type="number" class="form-control" id="paletLargo" placeholder="Largo" min="1" value="120">
+                                </div>
+                                <div class="col">
+                                    <input type="number" class="form-control" id="paletAncho" placeholder="Ancho" min="1" value="100">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="alturaMax" class="form-label">Altura máxima del palet (cm)</label>
+                            <input type="number" class="form-control" id="alturaMax" min="50" value="150">
+                        </div>
+                        
+                        <button type="button" id="calcular-cubicacion" class="btn btn-primary w-100">Calcular Cubicación</button>
+                    </form>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="result-box">
+                        <h4><i class="fas fa-chart-bar me-2"></i>Resultados</h4>
+                        <div id="resultados-cubicacion" class="mt-3">
+                            <p class="text-center text-muted">Ingresa los datos y haz clic en "Calcular Cubicación"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pallet-visualization mt-4">
+                        <h5 class="mb-3">Visualización de Paletización</h5>
+                        <div id="palet-grafico" class="text-center">
+                            <p class="text-muted">La visualización aparecerá después del cálculo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Liquidación de Costos -->
+    <section id="costos" class="container mb-5">
+        <div class="calculator-section">
+            <h2 class="section-title">Liquidación de Costos</h2>
+            <p>Calcula todos los costos asociados a tu operación de importación o exportación.</p>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <form id="costos-form">
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de operación</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipoOperacionCosto" id="costoExportacion" value="exportacion" checked>
+                                <label class="form-check-label" for="costoExportacion">Exportación</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="tipoOperacionCosto" id="costoImportacion" value="importacion">
+                                <label class="form-check-label" for="costoImportacion">Importación</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="valorMercancia" class="form-label">Valor de la mercancía (USD)</label>
+                            <input type="number" class="form-control" id="valorMercancia" min="1" value="10000">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="pesoTotal" class="form-label">Peso total (kg)</label>
+                            <input type="number" class="form-control" id="pesoTotal" min="1" value="500">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="volumenTotal" class="form-label">Volumen total (m³)</label>
+                            <input type="number" class="form-control" id="volumenTotal" min="0.1" step="0.1" value="2.5">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="paisOrigen" class="form-label">País de origen/destino</label>
+                            <select class="form-select" id="paisOrigen">
+                                <option value="usa">Estados Unidos</option>
+                                <option value="china">China</option>
+                                <option value="ue">Unión Europea</option>
+                                <option value="mexico">México</option>
+                                <option value="brasil">Brasil</option>
+                                <option value="otros">Otros</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="incoterm" class="form-label">Incoterm</label>
+                            <select class="form-select" id="incoterm">
+                                <option value="exw">EXW (Ex Works)</option>
+                                <option value="fob">FOB (Free On Board)</option>
+                                <option value="cif">CIF (Cost, Insurance and Freight)</option>
+                                <option value="ddp">DDP (Delivered Duty Paid)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Servicios adicionales</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="seguro" checked>
+                                <label class="form-check-label" for="seguro">Seguro de transporte</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="almacenamiento">
+                                <label class="form-check-label" for="almacenamiento">Almacenamiento</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="manejoAduana" checked>
+                                <label class="form-check-label" for="manejoAduana">Manejo aduanero</label>
+                            </div>
+                        </div>
+                        
+                        <button type="button" id="calcular-costos" class="btn btn-primary w-100">Calcular Costos</button>
+                    </form>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="result-box">
+                        <h4><i class="fas fa-file-invoice-dollar me-2"></i>Resultados de Liquidación</h4>
+                        <div id="resultados-costos" class="mt-3">
+                            <p class="text-center text-muted">Ingresa los datos y haz clic en "Calcular Costos"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="cost-breakdown mt-4">
+                        <h5>Desglose de Costos</h5>
+                        <ul class="list-group" id="desglose-costos">
+                            <li class="list-group-item">Los detalles aparecerán después del cálculo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="container mb-5">
+        <div class="calculator-section">
+            <h2 class="section-title">Contacto</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>¿Tienes preguntas sobre tus operaciones de importación o exportación? Contáctanos:</p>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Carrera 10 # 97A - 13, Bogotá, Colombia</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> +57 1 123 4567</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> info@easytrade.com.co</li>
+                        <li class="mb-2"><i class="fas fa-clock me-2 text-primary"></i> Lunes a Viernes: 8:00 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <form>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre completo</label>
+                            <input type="text" class="form-control" id="nombre" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="mensaje" class="form-label">Mensaje</label>
+                            <textarea class="form-control" id="mensaje" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-shipping-fast me-2"></i>EasyTrade</h5>
+                    <p>Soluciones integrales para simplificar tus operaciones de comercio exterior en Colombia.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Enlaces rápidos</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#documentos" class="text-light">Documentos requeridos</a></li>
+                        <li><a href="#cubicacion" class="text-light">Cubicación y paletización</a></li>
+                        <li><a href="#costos" class="text-light">Liquidación de costos</a></li>
+                        <li><a href="#contacto" class="text-light">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Legal</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-light">Términos y condiciones</a></li>
+                        <li><a href="#" class="text-light">Política de privacidad</a></li>
+                        <li><a href="#" class="text-light">Aviso legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="bg-light">
+            <div class="text-center py-3">
+                <p class="mb-0">&copy; 2023 EasyTrade. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Cubicación y paletización
+        document.getElementById('calcular-cubicacion').addEventListener('click', function() {
+            // Obtener valores del formulario
+            const largo = parseFloat(document.getElementById('largo').value);
+            const ancho = parseFloat(document.getElementById('ancho').value);
+            const alto = parseFloat(document.getElementById('alto').value);
+            const peso = parseFloat(document.getElementById('peso').value);
+            const cantidad = parseInt(document.getElementById('cantidad').value);
+            const alturaMax = parseFloat(document.getElementById('alturaMax').value);
+            
+            // Calcular volumen por caja (cm³)
+            const volumenCaja = largo * ancho * alto;
+            
+            // Calcular volumen total (m³)
+            const volumenTotal = (volumenCaja * cantidad) / 1000000;
+            
+            // Calcular peso total
+            const pesoTotal = peso * cantidad;
+            
+            // Determinar dimensiones del palet
+            let paletLargo, paletAncho;
+            const tipoPalet = document.getElementById('tipoPalet').value;
+            
+            if (tipoPalet === 'custom') {
+                paletLargo = parseFloat(document.getElementById('paletLargo').value);
+                paletAncho = parseFloat(document.getElementById('paletAncho').value);
+            } else if (tipoPalet === 'americano') {
+                paletLargo = 120;
+                paletAncho = 100;
+            } else { // europeo
+                paletLargo = 120;
+                paletAncho = 80;
+            }
+            
+            // Calcular cajas por piso
+            const cajasPorFilaLargo = Math.floor(paletLargo / largo);
+            const cajasPorFilaAncho = Math.floor(paletAncho / ancho);
+            const cajasPorPiso = cajasPorFilaLargo * cajasPorFilaAncho;
+            
+            // Calcular pisos por palet
+            const pisosPorPalet = Math.floor(alturaMax / alto);
+            
+            // Calcular cajas por palet
+            const cajasPorPalet = cajasPorPiso * pisosPorPalet;
+            
+            // Calcular palets necesarios
+            const paletsNecesarios = Math.ceil(cantidad / cajasPorPalet);
+            
+            // Mostrar resultados
+            document.getElementById('resultados-cubicacion').innerHTML = `
+                <div class="row">
+                    <div class="col-6">
+                        <p><strong>Volumen por caja:</strong></p>
+                        <p><strong>Volumen total:</strong></p>
+                        <p><strong>Peso total:</strong></p>
+                        <p><strong>Cajas por palet:</strong></p>
+                        <p><strong>Palets necesarios:</strong></p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p>${(volumenCaja/1000).toFixed(2)} litros</p>
+                        <p>${volumenTotal.toFixed(2)} m³</p>
+                        <p>${pesoTotal} kg</p>
+                        <p>${cajasPorPalet}</p>
+                        <p>${paletsNecesarios}</p>
+                    </div>
+                </div>
+            `;
+            
+            // Generar visualización de palet
+            const paletGrafico = document.getElementById('palet-grafico');
+            paletGrafico.innerHTML = '';
+            
+            // Crear contenedor para la visualización
+            const contenedor = document.createElement('div');
+            contenedor.style.position = 'relative';
+            contenedor.style.width = '100%';
+            contenedor.style.height = '200px';
+            contenedor.style.backgroundColor = '#f0f0f0';
+            contenedor.style.border = '1px solid #ccc';
+            paletGrafico.appendChild(contenedor);
+            
+            // Escalar para que quepa en el contenedor
+            const escala = Math.min(200 / paletAncho, 200 / paletLargo);
+            const anchoVis = paletAncho * escala;
+            const largoVis = paletLargo * escala;
+            
+            contenedor.style.width = ${largoVis}px;
+            contenedor.style.height = ${anchoVis}px;
+            contenedor.style.margin = '0 auto';
+            
+            // Crear cajas (solo para el primer piso)
+            for (let i = 0; i < cajasPorFilaLargo; i++) {
+                for (let j = 0; j < cajasPorFilaAncho; j++) {
+                    const box = document.createElement('div');
+                    box.className = 'box-item';
+                    box.style.width = ${largo * escala}px;
+                    box.style.height = ${ancho * escala}px;
+                    box.style.left = ${i * largo * escala}px;
+                    box.style.top = ${j * ancho * escala}px;
+                    box.textContent = ${largo}x${ancho}x${alto};
+                    contenedor.appendChild(box);
+                }
+            }
+            
+            // Añadir texto informativo
+            const info = document.createElement('p');
+            info.className = 'mt-2 small text-muted';
+            info.textContent = Visualización: ${cajasPorPiso} cajas por piso (${cajasPorFilaLargo}x${cajasPorFilaAncho});
+            paletGrafico.appendChild(info);
+        });
+        
+        // Mostrar/ocultar campos personalizados de palet
+        document.getElementById('tipoPalet').addEventListener('change', function() {
+            const customPalet = document.getElementById('custom-palet');
+            if (this.value === 'custom') {
+                customPalet.classList.remove('d-none');
+            } else {
+                customPalet.classList.add('d-none');
+            }
+        });
+        
+        // Liquidación de costos
+        document.getElementById('calcular-costos').addEventListener('click', function() {
+            // Obtener valores del formulario
+            const tipoOperacion = document.querySelector('input[name="tipoOperacionCosto"]:checked').value;
+            const valorMercancia = parseFloat(document.getElementById('valorMercancia').value);
+            const pesoTotal = parseFloat(document.getElementById('pesoTotal').value);
+            const volumenTotal = parseFloat(document.getElementById('volumenTotal').value);
+            const paisOrigen = document.getElementById('paisOrigen').value;
+            const incoterm = document.getElementById('incoterm').value;
+            
+            // Calcular costos base
+            let flete;
+            if (paisOrigen === 'china') {
+                flete = pesoTotal * 3.5; // USD por kg
+            } else if (paisOrigen === 'ue') {
+                flete = pesoTotal * 4.2;
+            } else if (paisOrigen === 'mexico') {
+                flete = pesoTotal * 2.0;
+            } else if (paisOrigen === 'brasil') {
+                flete = pesoTotal * 1.8;
+            } else { // usa y otros
+                flete = pesoTotal * 2.5;
+            }
+            
+            // Ajustar por volumen si es necesario
+            const pesoVolumetrico = volumenTotal * 333;
+            if (pesoVolumetrico > pesoTotal) {
+                flete = pesoVolumetrico * (flete / pesoTotal);
+            }
+            
+            // Costos adicionales
+            const seguro = document.getElementById('seguro').checked ? valorMercancia * 0.01 : 0;
+            const manejoAduana = document.getElementById('manejoAduana').checked ? 350 : 0;
+            const almacenamiento = document.getElementById('almacenamiento').checked ? 150 : 0;
+            
+            // Aranceles e impuestos (solo para importación)
+            let aranceles = 0;
+            let iva = 0;
+            let ica = 0;
+            
+            if (tipoOperacion === 'importacion') {
+                // Arancel promedio para Colombia (varía según producto)
+                aranceles = valorMercancia * 0.10;
+                
+                // IVA (19%)
+                iva = (valorMercancia + aranceles) * 0.19;
+                
+                // ICA (0.4% promedio)
+                ica = valorMercancia * 0.004;
+            }
+            
+            // Gastos de agencia
+            const gastosAgencia = 200;
+            
+            // Costo total
+            const total = valorMercancia + flete + seguro + aranceles + iva + ica + manejoAduana + almacenamiento + gastosAgencia;
+            
+            // Mostrar resultados
+            document.getElementById('resultados-costos').innerHTML = `
+                <div class="row">
+                    <div class="col-6">
+                        <p><strong>Valor mercancía:</strong></p>
+                        <p><strong>Flete internacional:</strong></p>
+                        <p><strong>Seguro:</strong></p>
+                        ${tipoOperacion === 'importacion' ? '<p><strong>Aranceles:</strong></p><p><strong>IVA:</strong></p><p><strong>ICA:</strong></p>' : ''}
+                        <p><strong>Gastos de agencia:</strong></p>
+                        <p><strong>Manejo aduanero:</strong></p>
+                        <p><strong>Almacenamiento:</strong></p>
+                        <p class="mt-2"><strong>TOTAL ESTIMADO:</strong></p>
+                    </div>
+                    <div class="col-6 text-end">
+                        <p>$${valorMercancia.toFixed(2)} USD</p>
+                        <p>$${flete.toFixed(2)} USD</p>
+                        <p>$${seguro.toFixed(2)} USD</p>
+                        ${tipoOperacion === 'importacion' ? 
+                         `<p>$${aranceles.toFixed(2)} USD</p>
+                         <p>$${iva.toFixed(2)} USD</p>
+                         <p>$${ica.toFixed(2)} USD</p>` : ''}
+                        <p>$${gastosAgencia.toFixed(2)} USD</p>
+                        <p>$${manejoAduana.toFixed(2)} USD</p>
+                        <p>$${almacenamiento.toFixed(2)} USD</p>
+                        <p class="mt-2"><strong>$${total.toFixed(2)} USD</strong></p>
+                    </div>
+                </div>
+            `;
+            
+            // Desglose de costos
+            const desglose = document.getElementById('desglose-costos');
+            desglose.innerHTML = '';
+            
+            const costos = [
+                { concepto: 'Valor de la mercancía', valor: valorMercancia },
+                { concepto: 'Flete internacional', valor: flete },
+                { concepto: 'Seguro de transporte', valor: seguro }
+            ];
+            
+            if (tipoOperacion === 'importacion') {
+                costos.push({ concepto: 'Aranceles de importación', valor: aranceles });
+                costos.push({ concepto: 'IVA (19%)', valor: iva });
+                costos.push({ concepto: 'ICA (0.4%)', valor: ica });
+            }
+            
+            costos.push(
+                { concepto: 'Gastos de agencia', valor: gastosAgencia },
+                { concepto: 'Manejo aduanero', valor: manejoAduana },
+                { concepto: 'Almacenamiento', valor: almacenamiento },
+                { concepto: 'TOTAL', valor: total, destacado: true }
+            );
+            
+            costos.forEach(costo => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                if (costo.destacado) {
+                    li.classList.add('fw-bold');
+                }
+                li.innerHTML = `
+                    <span>${costo.concepto}</span>
+                    <span>$${costo.valor.toFixed(2)} USD</span>
+                `;
+                desglose.appendChild(li);
+            });
+        });
+        
+        // Manejar cambio de tipo de palet al cargar
+        document.getElementById('tipoPalet').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
